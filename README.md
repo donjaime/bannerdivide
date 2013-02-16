@@ -14,6 +14,8 @@ To make this work cross platform, I bundled a build of JOGL, Processing, and an 
 
 Since building scala with SBT is a PITA, and Oracle and Apple have made it near impossible to get a 1.6 JDK on OS X, I have included a simple pre-build of the app that gets setup when you run `setup.sh`.
 
+The included mp3 was sourced from (Last FM)[http://www.last.fm/music/+free-music-downloads]. If our tastes in music differ, you can replace it with one of your choosing :).
+
 ### TLDR
 Do this:
 `setup.sh`
@@ -26,3 +28,4 @@ Do this:
 To build from source, you will need to have either (SBT)[http://www.scala-sbt.org/] installed, or Eclipse + the (Scala plugin for eclipse)[http://scala-ide.org/].
 
 With SBT (and java 1.6!) you can compile and run the demo via `sbt run`. For Eclipse users I have bundled a sample `.project` and `.classpath` that you can load in the IDE.
+
