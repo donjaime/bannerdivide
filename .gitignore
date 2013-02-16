@@ -1,0 +1,10 @@
+*.[oa]
+*~
+bin/
+*.class
+.scala_dependencies
+target/
+.cache
+deps.tar
+prebuild.tar
+lib/

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/scala-2.9.1/classes" path="src/main/scala"/>
+	<classpathentry kind="src" output="target/scala-2.9.1/classes" path="src/main/java"/>
+	<classpathentry kind="src" output="target/scala-2.9.1/test-classes" path="src/test/scala"/>
+	<classpathentry kind="src" output="target/scala-2.9.1/test-classes" path="src/test/java"/>
+	<classpathentry kind="lib" path="lib/core.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt-natives-linux-amd64.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt-natives-linux-i586.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt-natives-macosx-ppc.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt-natives-windows-amd64.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt-natives-windows-i586.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-natives-linux-amd64.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-natives-linux-i586.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-natives-macosx-ppc.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-natives-windows-amd64.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-natives-windows-i586.jar"/>
+	<classpathentry kind="lib" path="lib/jogl.jar"/>
+	<classpathentry kind="lib" path="lib/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/minim-spi.jar"/>
+	<classpathentry kind="lib" path="lib/minim.jar"/>
+	<classpathentry kind="lib" path="lib/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/opengl.jar"/>
+	<classpathentry kind="lib" path="lib/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/tritonus_share.jar"/>
+	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 6 (MacOS X Default)"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
