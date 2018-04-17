@@ -2,10 +2,9 @@ package bannerdivide
 
 import ddf.minim.Minim
 import ddf.minim.AudioPlayer
-import processing.core.{ PVector, PImage }
+import processing.core.{PVector, PImage}
 import processing.core.PConstants._
-import processing.opengl._
-import gfx.core.{ ScalaSketch, Mesh, Camera }
+import gfx.core.{ScalaSketch, Camera}
 import gfx.core.FloatMath._
 import gfx.core.PVectorOpsNonThreadSafe._
 import gfx.geometry.BirdMesh
@@ -27,8 +26,8 @@ class BannerDivideSketch extends ScalaSketch {
   val worldHeight = 500
   val worldDepth = 400
 
-  var canvasWidth = 1024
-  var canvasHeight = 768
+  var canvasWidth = pixelWidth
+  var canvasHeight = pixelHeight
 
   // Audio stuff
   val minim = new Minim(this)
@@ -37,22 +36,39 @@ class BannerDivideSketch extends ScalaSketch {
   // Time to switch camera positions
   var toggleBirdCamTime: Int = -1
 
+  // The banner
+  var banner: PImage = null
+  var halfWidth: Int = 0
+  var halfHeight: Int = 0
+  var quadWidth: Int = 0
+  var quadHeight: Int = 0
+
+  val columns = 20
+  var divide = false
+  var columnsDisplayed = 0
+  val birdsPerCol = numBirds / columns
+
   override def setup() {
-    if (BannerDivide.FULLSCREEN) {
-      canvasWidth = screenWidth
-      canvasHeight = screenHeight
-    } else {
-      frame.setResizable(true);
+    if (!BannerDivide.FULLSCREEN) {
+      frame.setResizable(true)
     }
 
-    size(canvasWidth, canvasHeight, OPENGL);
     lights()
     frameRate(fps)
     smooth()
     noStroke()
-    a.loadPixels()
-    song = minim.loadFile("bird-song.mp3")    
+    banner = loadImage("banner.jpg")
+    banner.loadPixels()
+    halfWidth = banner.width / 2
+    halfHeight = banner.height / 2
+    quadWidth = banner.width / columns
+    quadHeight = banner.height / birdsPerCol
+    song = minim.loadFile("bird-song.mp3")
     reset()
+  }
+
+  override def settings() {
+    fullScreen(P3D)
   }
 
   def reset() {
@@ -79,8 +95,8 @@ class BannerDivideSketch extends ScalaSketch {
   }
 
   /**
-   * Send a single bird to start the show.
-   **/
+    * Send a single bird to start the show.
+    **/
   def sendBird() {
     // Send a single boid to say hello.
     val birdTup = birds(0)
@@ -110,7 +126,7 @@ class BannerDivideSketch extends ScalaSketch {
 
   override def draw() {
     // Clear the frame.
-    background(109, 170, 255)   
+    background(109, 170, 255)
     drawBanner()
 
     if (birdCam != null) {
@@ -120,7 +136,7 @@ class BannerDivideSketch extends ScalaSketch {
 
     cam.lookAt(gazeTarget.x, gazeTarget.y, gazeTarget.z)
     if (divide) maybeDivideBanner()
-    renderBirds();
+    renderBirds()
     maybeToggleBirdCam()
     displayKeyboardShortcuts()
   }
@@ -131,7 +147,9 @@ class BannerDivideSketch extends ScalaSketch {
     super.stop()
   }
 
-  def addToggleTime() { toggleBirdCamTime = millis() + (math.random * 5000).toInt + 5000 }
+  def addToggleTime() {
+    toggleBirdCamTime = millis() + (math.random * 5000).toInt + 5000
+  }
 
   def maybeToggleBirdCam() {
     if (toggleBirdCamTime > 0 && toggleBirdCamTime < millis()) {
@@ -171,9 +189,9 @@ class BannerDivideSketch extends ScalaSketch {
   }
 
   def displayKeyboardShortcuts() {
-    fill(0, 102, 153);    
-    text("r : reset", textPosition.x, textPosition.y, textPosition.z);
-    text("l : toggle bird cam", textPosition.x, textPosition.y + 20, textPosition.z);    
+    fill(0, 102, 153)
+    text("r : reset", textPosition.x, textPosition.y, textPosition.z)
+    text("l : toggle bird cam", textPosition.x, textPosition.y + 20, textPosition.z)
   }
 
   override def mouseMoved() {
@@ -214,22 +232,12 @@ class BannerDivideSketch extends ScalaSketch {
   }
 
   /**
-   * SUBDIVISION OF IMAGE BANNER.
-   **/
-
-  val a: PImage = loadImage("banner.jpg");
-  val halfWidth = a.width / 2
-  val halfHeight = a.height / 2
-  val columns = 20
-  var divide = false
-  var columnsDisplayed = 0
-  val birdsPerCol = numBirds / columns
-  val quadWidth = a.width / columns
-  val quadHeight = a.height / birdsPerCol
+    * SUBDIVISION OF IMAGE BANNER.
+    **/
 
   def getBirdColor(col: Int, row: Int): Int = {
-    val start = ((row * quadHeight) * a.width) + (col * quadWidth)
-    a.pixels(start)
+    val start = ((row * quadHeight) * banner.width) + (col * quadWidth)
+    banner.pixels(start)
   }
 
   def maybeDivideBanner() {
@@ -251,10 +259,10 @@ class BannerDivideSketch extends ScalaSketch {
   }
 
   def drawBanner() {
-    noStroke();
-    textureMode(NORMALIZED);
-    beginShape(QUADS);
-    texture(a);
+    noStroke()
+    textureMode(NORMAL)
+    beginShape(QUADS)
+    texture(banner)
 
     for (
       c <- 0 until columnsDisplayed;
@@ -263,7 +271,7 @@ class BannerDivideSketch extends ScalaSketch {
       drawBannerPiece(c, r)
     }
 
-    endShape();
+    endShape()
   }
 
   def drawBannerPiece(c: Float, r: Float) {
@@ -271,9 +279,9 @@ class BannerDivideSketch extends ScalaSketch {
     val tr = (c + 1, r)
     val bl = (c, r + 1)
     val br = (c + 1, r + 1)
-    vertex((tl._1 * quadWidth) - halfWidth, (tl._2 * quadHeight) - halfHeight, 0, tl._1 / columns, tl._2 / birdsPerCol);
-    vertex((bl._1 * quadWidth) - halfWidth, (bl._2 * quadHeight) - halfHeight, 0, bl._1 / columns, bl._2 / birdsPerCol);
-    vertex((br._1 * quadWidth) - halfWidth, (br._2 * quadHeight) - halfHeight, 0, br._1 / columns, br._2 / birdsPerCol);
-    vertex((tr._1 * quadWidth) - halfWidth, (tr._2 * quadHeight) - halfHeight, 0, tr._1 / columns, tr._2 / birdsPerCol);
+    vertex((tl._1 * quadWidth) - halfWidth, (tl._2 * quadHeight) - halfHeight, 0, tl._1 / columns, tl._2 / birdsPerCol)
+    vertex((bl._1 * quadWidth) - halfWidth, (bl._2 * quadHeight) - halfHeight, 0, bl._1 / columns, bl._2 / birdsPerCol)
+    vertex((br._1 * quadWidth) - halfWidth, (br._2 * quadHeight) - halfHeight, 0, br._1 / columns, br._2 / birdsPerCol)
+    vertex((tr._1 * quadWidth) - halfWidth, (tr._2 * quadHeight) - halfHeight, 0, tr._1 / columns, tr._2 / birdsPerCol)
   }
 }

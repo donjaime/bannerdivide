@@ -10,7 +10,7 @@ class PVectorOps(var v1: PVector) {
 
   def -(v2: PVector): PVector = PVector.sub(v1, v2)
 
-  def *(v2: PVector): PVector = PVector.mult(v1, v2)
+  //def *(v2: PVector): PVector = PVector.mult(v1, v2)
 
   def *(x: Float): PVector = PVector.mult(v1, x)
 

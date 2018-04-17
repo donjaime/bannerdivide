@@ -1,8 +1,6 @@
 package bannerdivide
 
 import processing.core.PApplet
-import java.awt.Frame
-import java.awt.BorderLayout
 
 object BannerDivide {
   val FULLSCREEN = true
