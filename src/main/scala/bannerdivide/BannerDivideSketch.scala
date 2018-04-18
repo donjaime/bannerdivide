@@ -26,8 +26,8 @@ class BannerDivideSketch extends ScalaSketch {
   val worldHeight = 500
   val worldDepth = 400
 
-  var canvasWidth = pixelWidth
-  var canvasHeight = pixelHeight
+  var canvasWidth = 0
+  var canvasHeight = 0
 
   // Audio stuff
   val minim = new Minim(this)
@@ -69,6 +69,8 @@ class BannerDivideSketch extends ScalaSketch {
 
   override def settings() {
     fullScreen(P3D)
+    canvasHeight = displayHeight
+    canvasWidth = displayWidth
   }
 
   def reset() {
@@ -202,6 +204,8 @@ class BannerDivideSketch extends ScalaSketch {
       v.z = b.position.z
       b.repulse(v)
     }
+    text("width,height: " + canvasWidth + "," + canvasHeight, textPosition.x, textPosition.y - 20, textPosition.z)
+    text("x,y: " + v.x + "," + v.y, textPosition.x, textPosition.y - 40, textPosition.z)
   }
 
   def renderBirds() {
