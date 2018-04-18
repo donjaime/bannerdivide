@@ -129,6 +129,7 @@ class BannerDivideSketch extends ScalaSketch {
   override def draw() {
     // Clear the frame.
     background(109, 170, 255)
+    drawGrid()
     drawBanner()
 
     if (birdCam != null) {
@@ -204,8 +205,6 @@ class BannerDivideSketch extends ScalaSketch {
       v.z = b.position.z
       b.repulse(v)
     }
-    text("width,height: " + canvasWidth + "," + canvasHeight, textPosition.x, textPosition.y - 20, textPosition.z)
-    text("x,y: " + v.x + "," + v.y, textPosition.x, textPosition.y - 40, textPosition.z)
   }
 
   def renderBirds() {
@@ -233,6 +232,29 @@ class BannerDivideSketch extends ScalaSketch {
       bird.applyGeometry()
       popMatrix()
     }
+  }
+
+  def drawGrid() {
+    val cellSize = 40
+    var cols = width * 4 / cellSize
+    var rows = height * 4 / cellSize
+
+    pushMatrix()
+
+    translate(0, height / 4)
+    rotateX(HALF_PI)
+
+    for (i <- 0 until cols) {
+      for (j <- 0 until rows) {
+        val x = (i - cols / 2) * cellSize
+        val y = (j - rows / 2) * cellSize
+        noFill()
+        stroke(255)
+        rect(x, y, cellSize, cellSize)
+      }
+    }
+
+    popMatrix()
   }
 
   /**
